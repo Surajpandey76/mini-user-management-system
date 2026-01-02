@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import adminRoutes from "./routes/admin.routes";
+
 
 
 dotenv.config();
@@ -24,3 +26,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 app.use("/users", userRoutes);
+app.use("/admin", adminRoutes);
