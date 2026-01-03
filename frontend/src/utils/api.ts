@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000";
+const API_BASE = "http://https://mini-user-management-system-us5x.onrender.com:5000";
 
 export async function apiFetch(
   path: string,
