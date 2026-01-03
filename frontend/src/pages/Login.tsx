@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Layout from "../components/Layout";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -38,38 +40,41 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "50px auto" }}>
-      <h2>Login</h2>
+  <Layout>
+    <h2 style={{ marginBottom: 20 }}>Login</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br /><br />
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <br /><br />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br /><br />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <br /><br />
 
-        <button type="submit">Login</button>
-      </form>
+      <button type="submit">Login</button>
+    </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    {error && <p style={{ color: "red", marginTop: 10 }}>{error}</p>}
 
-      <p>
-        Don’t have an account? <Link to="/signup">Signup</Link>
-      </p>
-    </div>
-  );
+    <p style={{ marginTop: 20 }}>
+      Don’t have an account? <Link to="/signup">Signup</Link>
+    </p>
+  </Layout>
+);
+
 }
+
+
 
 export default Login;

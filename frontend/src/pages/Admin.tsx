@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../utils/api";
+import Layout from "../components/Layout";
+
 
 interface User {
   id: string;
@@ -45,36 +47,40 @@ function Admin() {
   if (loading) return <p>Loading users...</p>;
 
   return (
-    <div style={{ padding: 30 }}>
-      <h2>Admin Panel</h2>
+  <Layout>
+    <h2 style={{ marginBottom: 20 }}>Admin Panel</h2>
 
-      <table border={1} cellPadding={10}>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Action</th>
+    <table width="100%" border={1} cellPadding={10} style={{ borderCollapse: "collapse" }}>
+      <thead style={{ background: "#f1f5f9" }}>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {users.map((u) => (
+          <tr key={u.id}>
+            <td>{u.email}</td>
+            <td>{u.role}</td>
+            <td>{u.isActive ? "Active" : "Inactive"}</td>
+            <td>
+              <button
+                style={{
+                  backgroundColor: u.isActive ? "#dc2626" : "#16a34a"
+                }}
+                onClick={() => toggleUser(u.id, u.isActive)}
+              >
+                {u.isActive ? "Deactivate" : "Activate"}
+              </button>
+            </td>
           </tr>
-        </thead>
-
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.email}</td>
-              <td>{u.role}</td>
-              <td>{u.isActive ? "Active" : "Inactive"}</td>
-              <td>
-                <button onClick={() => toggleUser(u.id, u.isActive)}>
-                  {u.isActive ? "Deactivate" : "Activate"}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+        ))}
+      </tbody>
+    </table>
+  </Layout>
+);
 }
-
 export default Admin;

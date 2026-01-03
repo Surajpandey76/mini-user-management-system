@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
+
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -17,12 +19,20 @@ function Dashboard() {
   };
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>You are logged in 🎉</p>
+  <Layout>
+    <h2>Dashboard</h2>
+    <p style={{ marginTop: 10 }}>You are logged in 🎉</p>
+
+    <div style={{ marginTop: 30 }}>
       <button onClick={logout}>Logout</button>
     </div>
-  );
+
+    <div style={{ marginTop: 20 }}>
+      <a href="/admin">Go to Admin Panel</a>
+    </div>
+  </Layout>
+);
+
 }
 
 export default Dashboard;
