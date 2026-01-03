@@ -11,10 +11,16 @@ function Dashboard() {
     }
   }, [navigate]);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div>
       <h2>Dashboard</h2>
       <p>You are logged in 🎉</p>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
