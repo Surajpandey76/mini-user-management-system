@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Layout from "../components/Layout";
+import { apiFetch } from "../utils/api";
 
 function Signup() {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,12 +14,9 @@ function Signup() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await apiFetch("/auth/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ fullName, email, password })
+        body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
@@ -28,28 +26,18 @@ function Signup() {
         return;
       }
 
-      // Auto-login
       navigate("/login");
-
-    } catch {
-      setError("Server error");
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Please try again.");
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "50px auto" }}>
-      <h2>Signup</h2>
+    <Layout>
+      <h2 style={{ marginBottom: 20 }}>Signup</h2>
 
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-        />
-        <br /><br />
-
         <input
           type="email"
           placeholder="Email"
@@ -71,12 +59,12 @@ function Signup() {
         <button type="submit">Signup</button>
       </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red", marginTop: 10 }}>{error}</p>}
 
-      <p>
+      <p style={{ marginTop: 20 }}>
         Already have an account? <Link to="/login">Login</Link>
       </p>
-    </div>
+    </Layout>
   );
 }
 

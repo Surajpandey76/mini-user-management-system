@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Layout from "../components/Layout";
-
+import { apiFetch } from "../utils/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,11 +14,8 @@ function Login() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/auth/login", {
+      const res = await apiFetch("/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify({ email, password })
       });
 
@@ -29,52 +26,47 @@ function Login() {
         return;
       }
 
-      // Save token
       localStorage.setItem("token", data.token);
-
-      // Redirect to dashboard
       navigate("/dashboard");
-    } catch {
-      setError("Server error");
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Please try again.");
     }
   };
 
   return (
-  <Layout>
-    <h2 style={{ marginBottom: 20 }}>Login</h2>
+    <Layout>
+      <h2 style={{ marginBottom: 20 }}>Login</h2>
 
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <br /><br />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <br /><br />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <br /><br />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <br /><br />
 
-      <button type="submit">Login</button>
-    </form>
+        <button type="submit">Login</button>
+      </form>
 
-    {error && <p style={{ color: "red", marginTop: 10 }}>{error}</p>}
+      {error && <p style={{ color: "red", marginTop: 10 }}>{error}</p>}
 
-    <p style={{ marginTop: 20 }}>
-      Don’t have an account? <Link to="/signup">Signup</Link>
-    </p>
-  </Layout>
-);
-
+      <p style={{ marginTop: 20 }}>
+        Don’t have an account? <Link to="/signup">Signup</Link>
+      </p>
+    </Layout>
+  );
 }
-
-
 
 export default Login;
